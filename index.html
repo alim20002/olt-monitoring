@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONU Monitor Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            text-align: center;
+        }
+        
+        .mac-address {
+            text-align: center;
+        }
+        
+        #loading {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2>ONU Monitor Panel</h2>
+        <div id="statusMessage" class="alert"></div>
+        <input type="text" id="searchBar" class="form-control mb-3" placeholder="Search ONU data...">
+        <div id="totalCount" class="mb-3">
+            Total ONU Count: <strong id="onuCount">0</strong>
+        </div>
+        <div id="dataContainer" class="table-container">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Serial</th>
+                        <th>User Name</th>
+                        <th>ONU ID</th>
+                        <th>MAC Address</th>
+                        <th>RX Laser (dBm)</th>
+                        <th>Temperature (°C)</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTableBody">
+                    <!-- Data will be injected here -->
+                </tbody>
+            </table>
+        </div>
+        <div id="loading" class="text-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let onuCounter = 0;
+
+        async function fetchONUData() {
+            document.getElementById('loading').style.display = 'block';
+            try {
+                const response = await fetch('backend.php');
+                const result = await response.json();
+                document.getElementById('loading').style.display = 'none';
+
+                const statusMessage = document.getElementById('statusMessage');
+                const dataTableBody = document.getElementById('dataTableBody');
+                const onuCount = document.getElementById('onuCount');
+
+                if (result.status === 'success') {
+                    statusMessage.classList.add('alert-success');
+                    statusMessage.textContent = 'Connection successful!';
+                    dataTableBody.innerHTML = '';
+                    onuCounter = 0;
+
+                    result.data.forEach(onu => {
+                        onuCounter++;
+                        const row = `<tr>
+                            <td>${onuCounter}</td>
+                            <td>${onu.username}</td>
+                            <td>${onu.pon_port}:${onu.onu_id}</td>
+                            <td class="mac-address">${onu.mac}</td>
+                            <td>${onu.rx_laser}</td>
+                            <td>${onu.temperature}</td>
+                        </tr>`;
+                        dataTableBody.insertAdjacentHTML('beforeend', row);
+                    });
+
+                    onuCount.textContent = onuCounter;
+                } else {
+                    statusMessage.classList.add('alert-danger');
+                    statusMessage.textContent = result.message;
+                    dataTableBody.innerHTML = '';
+                    onuCount.textContent = '0';
+                }
+            } catch (error) {
+                document.getElementById('statusMessage').classList.add('alert-danger');
+                document.getElementById('statusMessage').textContent = 'Error fetching data: ' + error.message;
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function searchTable() {
+            const filter = document.getElementById('searchBar').value.toLowerCase();
+            const rows = document.querySelectorAll('#dataTableBody tr');
+
+            rows.forEach(row => {
+                const cells = row.getElementsByTagName('td');
+                let found = false;
+
+                for (let i = 0; i < cells.length; i++) {
+                    if (cells[i].textContent.toLowerCase().includes(filter)) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                row.style.display = found ? '' : 'none';
+            });
+        }
+
+        document.getElementById('searchBar').addEventListener('input', searchTable);
+
+        // Fetch data when the page loads
+        fetchONUData();
+    </script>
+</body>
+
+</html>
