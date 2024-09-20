@@ -25,7 +25,7 @@ am_rana	D7619C5E
 am_arif	9E74C20C
 am_noyon	D2C3605E
 am_ramin	DC25FF34
-am_kajol	80:3F:5D:6E:94:92
+am_kajol	0C:41:E9:79:8B:D4
 am_masud2	F235246D
 am_akash2	F0338A40
 am_mokit	57574F9B
