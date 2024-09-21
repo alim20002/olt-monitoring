@@ -36,7 +36,7 @@ am_ashraful	32BBEE1F
 am_sabbir	CC78562F
 am_jabed	EDA8213A
 am_arman2	F8:4A:BF:1A:F4:DB
-am_iqbal	56A5BA3B
+am_iqbal	"24:9E:AB:56:A5:BA	"
 am_korimul	579ADF9B
 am_nargis	0CB48441
 am_mamun	57DA1F9B
@@ -106,5 +106,4 @@ am_yousuf	80:D4:A5:57:C3:BF
 am_tarek	1C:01:A7:4F:23:9B
 am_forid	EC86704D
 am_parvej	50:0F:F5:D2:B9:A0
-am_amdadul 00:D5:9E:D5:56:58
-Alim 24:9E:AB:56:A5:BA
+C-data 80:F7:A6:F9:5C:39
