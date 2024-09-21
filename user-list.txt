@@ -1,6 +1,6 @@
 am_akash	00:D5:9E:73:B9:22
 am_maruf	A5EE7433
-am_tamim	"D6392A31	"
+am_tamim	D6392A31
 am_alamin	080313C0
 am_selim	EFDFF75E
 am_sahin	10:51:72:A4:9C:A1
@@ -36,7 +36,7 @@ am_ashraful	32BBEE1F
 am_sabbir	CC78562F
 am_jabed	EDA8213A
 am_arman2	F8:4A:BF:1A:F4:DB
-am_iqbal	"24:9E:AB:56:A5:BA	"
+am_iqbal	24:9E:AB:56:A5:BA
 am_korimul	579ADF9B
 am_nargis	0CB48441
 am_mamun	57DA1F9B
