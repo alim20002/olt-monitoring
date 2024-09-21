@@ -36,7 +36,7 @@ am_ashraful	32BBEE1F
 am_sabbir	CC78562F
 am_jabed	EDA8213A
 am_arman2	F8:4A:BF:1A:F4:DB
-am_iqbal	24:9E:AB:56:A5:BA
+am_iqbal 24:9E:AB:56:A5:BA
 am_korimul	579ADF9B
 am_nargis	0CB48441
 am_mamun	57DA1F9B
