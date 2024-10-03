@@ -1,7 +1,7 @@
 C-data 80:F7:A6:F9:5C:39
 am_akash	
 am_maruf	A5EE7433
-am_tamim	"D6392A31	"
+am_tamim	D6392A31
 am_alamin	080313C0
 am_selim	EFDFF75E
 am_sahin	10:51:72:A4:9C:A1
