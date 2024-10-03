@@ -1,6 +1,7 @@
-am_akash	00:D5:9E:73:B9:22
+C-data 80:F7:A6:F9:5C:39
+am_akash	
 am_maruf	A5EE7433
-am_tamim	D6392A31
+am_tamim	"D6392A31	"
 am_alamin	080313C0
 am_selim	EFDFF75E
 am_sahin	10:51:72:A4:9C:A1
@@ -36,7 +37,7 @@ am_ashraful	32BBEE1F
 am_sabbir	CC78562F
 am_jabed	EDA8213A
 am_arman2	F8:4A:BF:1A:F4:DB
-am_iqbal 24:9E:AB:56:A5:BA
+am_iqbal	24:9E:AB:56:A5:BA 
 am_korimul	579ADF9B
 am_nargis	0CB48441
 am_mamun	57DA1F9B
@@ -52,7 +53,7 @@ am_monir	57C3BF9B
 am_sakil	C21F2468
 am_rakib	4C:F9:B2:BC:BE:08
 am_rupsha	5AB8974B
-am_noyon2	D0:3E:5C:02:07:31
+am_noyon2	A4:DC:BE:BC:AB:DD
 am_kawsar	38:3A:21:20:15:A6
 am_abid2	A2:4D:08:03:1A:A0
 am_rana3	5538165A
@@ -75,7 +76,7 @@ am_kobir2	A713557F
 am_sohan	BAF4917B
 am_humayun2	A4:DC:BE:F9:55:9B
 am_soikot	6F4DF75E
-am_hadis	BCABDD7B
+am_hadis	7C:A2:3E:A5:2C:88
 am_sadek	626A6F9B
 am_sojib	9E754DEC
 am_robin2	20:3D:B2:CE:5F:85
@@ -88,12 +89,12 @@ am_emon3	80791E7F
 am_jibon	9ED538D6
 am_somrat	9ED534FE
 am_siyam	9ED53624
-am_swopon	E368217C
+am_swopon	70:A8:E3:68:21:7C
 am_parvin2	BC:62:0E:62:A5:0D
 am_rubel	7B42067F
 am_tamim2	94:04:9C:C1:E9:E8
 am_laden	B2FE6EE3
-am_alamin2	F07C9730
+am_alamin2	
 am_bazar	4C:AE:1C:22:90:40
 am_noyon3	9ED512CC
 am_shamim	9ED525B0
@@ -106,4 +107,7 @@ am_yousuf	80:D4:A5:57:C3:BF
 am_tarek	1C:01:A7:4F:23:9B
 am_forid	EC86704D
 am_parvej	50:0F:F5:D2:B9:A0
-C-data 80:F7:A6:F9:5C:39
+am_amdadul	00:D5:9E:D5:56:58
+am_helan	F07C9730
+am_anowar	2CD8DF9B
+am_juwel2	00:D5:9E:73:B9:22
