@@ -14,8 +14,8 @@ include('../nav.php');
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .copy-icon {
-            cursor: pointer; /* Add pointer cursor for the copy icon */
-            margin-left: 8px; /* Add space between MAC address and icon */
+            cursor: pointer;
+            margin-left: 8px;
         }
     </style>
 </head>
@@ -48,6 +48,7 @@ include('../nav.php');
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
+        <button id="saveDataButton" class="btn btn-primary mt-3">Save Data</button>
     </div>
 
     <script>
@@ -103,14 +104,12 @@ include('../nav.php');
 
         function copyToClipboard(macAddress) {
             if (navigator.clipboard) {
-                // Use the Clipboard API
                 navigator.clipboard.writeText(macAddress).then(() => {
                     alert(`Copied: ${macAddress}`);
                 }).catch(err => {
                     console.error('Failed to copy: ', err);
                 });
             } else {
-                // Fallback for older browsers
                 const tempInput = document.createElement('input');
                 tempInput.value = macAddress;
                 document.body.appendChild(tempInput);
@@ -143,7 +142,6 @@ include('../nav.php');
                 row.style.display = found ? '' : 'none';
             });
 
-            // Reset row colors after filtering
             const visibleRows = Array.from(rows).filter(row => row.style.display !== 'none');
             visibleRows.forEach((row, index) => {
                 row.className = index % 2 === 0 ? 'table-light' : 'table-secondary';
@@ -152,7 +150,42 @@ include('../nav.php');
 
         document.getElementById('searchBar').addEventListener('input', searchTable);
 
-        // Fetch data when the page loads
+        document.getElementById('saveDataButton').addEventListener('click', async () => {
+            const rows = document.querySelectorAll('#dataTableBody tr');
+            const tableData = [];
+
+            rows.forEach(row => {
+                const columns = row.querySelectorAll('td');
+                const rowData = {
+                    serial: columns[0].textContent,
+                    username: columns[1].textContent,
+                    onuId: columns[2].textContent,
+                    macAddress: columns[3].textContent,
+                    rxLaser: columns[4].textContent
+                };
+                tableData.push(rowData);
+            });
+
+            try {
+                const response = await fetch('../backend/save_data.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(tableData)
+                });
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert('Data saved successfully!');
+                } else {
+                    alert('Error saving data.');
+                }
+            } catch (error) {
+                console.error('Error saving data: ' + error.message);
+            }
+        });
+
         fetchONUData();
     </script>
 </body>
