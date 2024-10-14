@@ -41,7 +41,7 @@ include('../nav.php');
 
 <body>
     <div class="container mt-5">
-        <h2>Offline ONU</h2>
+        <h2>Offline ONUs</h2>
         <input type="text" id="searchBar" class="form-control mb-3" placeholder="Search ONU data...">
         <div id="totalCount" class="mb-3">
             Total ONU Count: <strong id="onuCount">0</strong>

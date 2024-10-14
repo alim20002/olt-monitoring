@@ -17,6 +17,15 @@
             opacity: 1; /* Fully opaque when visible */
             transform: translateY(0); /* Reset position */
         }
+
+        #navbar {
+        padding: 10px;
+        transition: top 0.3s; /* Smooth transition for top property */
+    }
+
+    .hidden {
+        top: -70px; /* Adjust based on navbar height */
+    }
     </style>
 </head>
 <body>

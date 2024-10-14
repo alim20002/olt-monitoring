@@ -19,7 +19,7 @@ include('../nav.php');
 
 <body>
     <div class="container mt-5">
-        <h2>Online ONUs : 1</h2>
+        <h2>Online ONUs : 2</h2>
         <input type="text" id="searchBar" class="form-control mb-3" placeholder="Search ONU data...">
         <div id="totalCount" class="mb-3">
             Total ONU Count: <strong id="onuCount">0</strong>
@@ -54,7 +54,7 @@ include('../nav.php');
         async function fetchONUData() {
             document.getElementById('loading').style.display = 'block';
             try {
-                const response = await fetch('../backend/backend_pon_1.php');
+                const response = await fetch('../backend/fetch_saved_onu_data.php');
                 const result = await response.json();
                 document.getElementById('loading').style.display = 'none';
 
