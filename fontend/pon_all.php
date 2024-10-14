@@ -49,6 +49,12 @@ include('../nav.php');
         <div id="totalCount" class="mb-3">
             Total ONU Count: <strong id="onuCount">0</strong>
             <div class="dot-button" id="toggleSaveButton"></div> <!-- Dot button -->
+            <button id="saveDataButton" class="btn btn-primary mt-3 save-button">Save Data</button> <!-- Save button -->
+            <div id="loading" class="text-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
         </div>
         <div id="dataContainer" class="table-container">
             <table class="table table-bordered">
@@ -66,12 +72,8 @@ include('../nav.php');
                 </tbody>
             </table>
         </div>
-        <div id="loading" class="text-center">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-        <button id="saveDataButton" class="btn btn-primary mt-3 save-button">Save Data</button> <!-- Save button -->
+        
+        
     </div>
 
     <script>
@@ -175,6 +177,9 @@ include('../nav.php');
         document.getElementById('searchBar').addEventListener('input', searchTable);
 
         document.getElementById('saveDataButton').addEventListener('click', async () => {
+            // Show the loading spinner when saving
+            document.getElementById('loading').style.display = 'block';
+
             const rows = document.querySelectorAll('#dataTableBody tr');
             const tableData = [];
 
@@ -207,6 +212,9 @@ include('../nav.php');
                 }
             } catch (error) {
                 console.error('Error saving data: ' + error.message);
+            } finally {
+                // Hide the loading spinner after saving
+                document.getElementById('loading').style.display = 'none';
             }
         });
 
