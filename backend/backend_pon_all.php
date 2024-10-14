@@ -95,14 +95,13 @@ try {
         foreach ($lines as $line) {
             if (preg_match('/^  0\/1  \d+/', $line)) {
                 $parts = preg_split('/\s+/', trim($line));
-                if (count($parts) >= 9) { // Adjust this based on actual data format
+                if (count($parts) >= 8) { // Adjust this based on actual data format
                     $macAddress = strtoupper($parts[3] ?? ''); // Convert MAC address to uppercase
                     $data[] = [
                         'pon_port' => $parts[1] ?? '',
                         'onu_id' => $parts[2] ?? '',
                         'mac' => $macAddress,
                         'rx_laser' => $parts[6] ?? '', // Assuming the RX Laser is at index 6
-                        'temperature' => $parts[8] ?? '', // Assuming the Temperature is at index 8
                         'username' => isset($usernames[$macAddress]) ? $usernames[$macAddress] : 'Unknown' // Default username
                     ];
                 }

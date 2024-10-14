@@ -36,7 +36,6 @@ include('../nav.php');
                         <th>ONU ID</th>
                         <th>MAC Address</th>
                         <th>RX Laser (dBm)</th>
-                        <th>Temperature (°C)</th>
                     </tr>
                 </thead>
                 <tbody id="dataTableBody">
@@ -79,7 +78,6 @@ include('../nav.php');
                                 <i class="fas fa-copy copy-icon" onclick="copyToClipboard('${onu.mac}')"></i>
                             </td>
                             <td>${onu.rx_laser}</td>
-                            <td>${onu.temperature}</td>
                         </tr>`;
                         dataTableBody.insertAdjacentHTML('beforeend', row);
                     });
