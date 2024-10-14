@@ -51,6 +51,9 @@
             <li class="nav-item">
                 <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'offline.php') ? 'active' : ''; ?>" href="../fontend/offline.php">Offline ONUs</a>
             </li>    
+            <li class="nav-item">
+                <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'saved_data.php') ? 'active' : ''; ?>" href="../fontend/saved_data.php">Saved Data</a>
+            </li>    
         </ul>
     </div>
 </nav>
