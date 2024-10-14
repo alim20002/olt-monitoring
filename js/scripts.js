@@ -5,3 +5,4 @@ const jsFiles = [
     // 'file3.js',
     // Add all your other JavaScript files here
 ];
+

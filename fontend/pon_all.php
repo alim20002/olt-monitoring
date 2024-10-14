@@ -17,6 +17,28 @@ include('../nav.php');
             cursor: pointer;
             margin-left: 8px;
         }
+        .dot-button {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #007bff;
+            margin-left: 95%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .dot-button:hover {
+            background-color: #0056b3;
+        }
+        .save-button {
+            display: none; /* Initially hide the save button */
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .save-button.visible {
+            display: block;
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -26,6 +48,7 @@ include('../nav.php');
         <input type="text" id="searchBar" class="form-control mb-3" placeholder="Search ONU data...">
         <div id="totalCount" class="mb-3">
             Total ONU Count: <strong id="onuCount">0</strong>
+            <div class="dot-button" id="toggleSaveButton"></div> <!-- Dot button -->
         </div>
         <div id="dataContainer" class="table-container">
             <table class="table table-bordered">
@@ -48,11 +71,12 @@ include('../nav.php');
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
-        <button id="saveDataButton" class="btn btn-primary mt-3">Save Data</button>
+        <button id="saveDataButton" class="btn btn-primary mt-3 save-button">Save Data</button> <!-- Save button -->
     </div>
 
     <script>
         let onuCounter = 0;
+        const correctPin = '12300'; // Set the correct PIN
 
         async function fetchONUData() {
             document.getElementById('loading').style.display = 'block';
@@ -183,6 +207,24 @@ include('../nav.php');
                 }
             } catch (error) {
                 console.error('Error saving data: ' + error.message);
+            }
+        });
+
+        // Handle dot button click for showing/hiding save button with PIN code and auto-hide after 10 seconds
+        const dotButton = document.getElementById('toggleSaveButton');
+        const saveButton = document.getElementById('saveDataButton');
+
+        dotButton.addEventListener('click', () => {
+            const userPin = prompt('Enter PIN to show Save Button:');
+            if (userPin === correctPin) {
+                saveButton.classList.add('visible');
+
+                // Automatically hide the save button after 10 seconds
+                setTimeout(() => {
+                    saveButton.classList.remove('visible');
+                }, 5000); // 5 seconds in milliseconds
+            } else {
+                alert('Incorrect PIN');
             }
         });
 
