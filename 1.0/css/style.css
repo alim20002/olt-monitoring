@@ -1,0 +1,28 @@
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.navbar {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.btn {
+    margin: 5px;
+}
+
+.table-container {
+    max-height: 400px;
+    overflow-y: auto;
+    text-align: center;
+}
+
+.mac-address {
+    text-align: center;
+}
+
+#loading {
+    display: none;
+}
