@@ -1,3 +1,91 @@
+<?php
+// Database connection
+$hostname = 'sql12.freesqldatabase.com';
+$username = 'sql12737660';
+$password = 'Ize6GMRKKm';
+$database = 'sql12737660';
+$port = 3306;
+
+$conn = new mysqli($hostname, $username, $password, $database, $port);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Handle the operations
+$action = isset($_POST['action']) ? $_POST['action'] : '';
+
+if ($action == 'fetchTables') {
+    // Fetch all table names starting with 'onu_data_'
+    $sql = "SHOW TABLES LIKE 'onu_data_%'";
+    $result = $conn->query($sql);
+
+    $tables = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_array()) {
+            $tables[] = $row[0];
+        }
+    }
+    echo json_encode(['tables' => $tables]);
+    exit;
+}
+
+if ($action == 'fetchData') {
+    $tableName = $_POST['tableName'];
+    $sql = "SELECT * FROM `$tableName`";
+    $result = $conn->query($sql);
+
+    $data = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+    }
+    echo json_encode(['data' => $data]);
+    exit;
+}
+
+if ($action == 'updateRow') {
+    $tableName = $_POST['tableName'];
+    $id = $_POST['id'];
+    $column = $_POST['column'];
+    $value = $_POST['value'];
+
+    $sql = "UPDATE `$tableName` SET `$column` = '$value' WHERE id = '$id'";
+    if ($conn->query($sql) === TRUE) {
+        echo json_encode(['status' => 'success']);
+    } else {
+        echo json_encode(['status' => 'error']);
+    }
+    exit;
+}
+
+if ($action == 'deleteRow') {
+    $tableName = $_POST['tableName'];
+    $id = $_POST['id'];
+
+    $sql = "DELETE FROM `$tableName` WHERE id = '$id'";
+    if ($conn->query($sql) === TRUE) {
+        echo json_encode(['status' => 'success']);
+    } else {
+        echo json_encode(['status' => 'error']);
+    }
+    exit;
+}
+
+if ($action == 'deleteTable') {
+    $tableName = $_POST['tableName'];
+
+    $sql = "DROP TABLE `$tableName`";
+    if ($conn->query($sql) === TRUE) {
+        echo json_encode(['status' => 'success']);
+    } else {
+        echo json_encode(['status' => 'error']);
+    }
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -126,7 +214,7 @@
     }
 
     function fetchTables() {
-        fetch('database.php', {
+        fetch('', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'action=fetchTables'
@@ -148,7 +236,7 @@
         const tableName = document.getElementById('tableSelect').value;
         if (!tableName) return;
 
-        fetch('database.php', {
+        fetch('', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `action=fetchData&tableName=${tableName}`
@@ -184,47 +272,43 @@
     }
 
     function editCell(cell, column, id) {
-        const originalValue = cell.getAttribute('data-original') || cell.textContent;
-        const currentValue = cell.textContent;
+        const originalValue = cell.getAttribute('data-original');
+        const newValue = cell.textContent.trim();
 
-        if (currentValue !== originalValue) {
-            const saveButton = document.getElementById(`save-${id}`);
-            saveButton.style.display = 'inline-block'; // Show the save button next to the row
-            if (!saveButtons[id]) saveButtons[id] = {};
-            saveButtons[id][column] = currentValue;
+        if (originalValue !== newValue) {
+            document.getElementById(`save-${id}`).style.display = 'inline-block';
+            saveButtons[id] = { column, value: newValue };
         } else {
-            const saveButton = document.getElementById(`save-${id}`);
-            saveButton.style.display = 'none'; // Hide the save button if no changes
+            document.getElementById(`save-${id}`).style.display = 'none';
+            delete saveButtons[id];
         }
     }
 
     function saveRow(id) {
+        const { column, value } = saveButtons[id];
         const tableName = document.getElementById('tableSelect').value;
-        const changes = saveButtons[id] || {};
 
-        Object.keys(changes).forEach(column => {
-            const newValue = changes[column];
-
-            fetch('database.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=updateRow&tableName=${tableName}&id=${id}&column=${column}&value=${newValue}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    document.getElementById(`save-${id}`).style.display = 'none'; // Hide the save button after saving
-                } else {
-                    alert('Failed to update row');
-                }
-            });
+        fetch('', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `action=updateRow&tableName=${tableName}&id=${id}&column=${column}&value=${value}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                showNotification('Row updated successfully.');
+                document.getElementById(`save-${id}`).style.display = 'none';
+                delete saveButtons[id];
+            } else {
+                showNotification('Failed to update row.', 'error');
+            }
         });
     }
 
     function deleteRow(id) {
         const tableName = document.getElementById('tableSelect').value;
 
-        fetch('database.php', {
+        fetch('', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `action=deleteRow&tableName=${tableName}&id=${id}`
@@ -233,91 +317,65 @@
         .then(data => {
             if (data.status === 'success') {
                 showNotification('Row deleted successfully.');
-                fetchTableData(); // Refresh table data
+                fetchTableData();
             } else {
-                alert('Failed to delete row');
+                showNotification('Failed to delete row.', 'error');
             }
-        });
-    }
-
-    function deleteMarkedRows() {
-        const tableName = document.getElementById('tableSelect').value;
-        const markedRows = Array.from(document.querySelectorAll('.delete-mark:checked')).map(mark => {
-            return mark.closest('tr').querySelector('td:nth-child(2)').textContent; // Assuming the first data cell is the ID
-        });
-
-        const deletePromises = markedRows.map(id => {
-            return fetch('database.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=deleteRow&tableName=${tableName}&id=${id}`
-            }).then(response => response.json());
-        });
-
-        Promise.all(deletePromises)
-        .then(results => {
-            const successfulDeletes = results.filter(result => result.status === 'success').length;
-            if (successfulDeletes > 0) {
-                showNotification(`${successfulDeletes} rows deleted successfully.`);
-            }
-            fetchTableData(); // Refresh table data
         });
     }
 
     function deleteTable() {
         const tableName = document.getElementById('tableSelect').value;
+        if (!tableName) return;
 
-        fetch('database.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `action=deleteTable&tableName=${tableName}`
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                showNotification('Table deleted successfully.');
-                fetchTables(); // Refresh table list
-                document.getElementById('tableContainer').innerHTML = '';
-            } else {
-                alert('Failed to delete table');
-            }
-        });
+        if (confirm('Are you sure you want to delete the table?')) {
+            fetch('', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `action=deleteTable&tableName=${tableName}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    showNotification('Table deleted successfully.');
+                    fetchTables();
+                    document.getElementById('tableContainer').innerHTML = '';
+                } else {
+                    showNotification('Failed to delete table.', 'error');
+                }
+            });
+        }
     }
 
-    function toggleSelectAll(selectAll) {
+    function toggleSelectAll(selectAllCheckbox) {
         const checkboxes = document.querySelectorAll('.delete-mark');
         checkboxes.forEach(checkbox => {
-            checkbox.checked = selectAll.checked;
+            checkbox.checked = selectAllCheckbox.checked;
         });
-        toggleDeleteButton(); // Check if any checkbox is selected
+        toggleDeleteButton();
     }
 
     function toggleDeleteButton() {
-        const checkboxes = document.querySelectorAll('.delete-mark');
-        const deleteButton = document.getElementById('deleteSelectedButton');
-        const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-        deleteButton.style.display = anyChecked ? 'block' : 'none'; // Show or hide the delete button based on checked checkboxes
+        const deleteSelectedButton = document.getElementById('deleteSelectedButton');
+        const checkboxes = document.querySelectorAll('.delete-mark:checked');
+        if (checkboxes.length > 0) {
+            deleteSelectedButton.style.display = 'inline-block';
+        } else {
+            deleteSelectedButton.style.display = 'none';
+        }
     }
 
-    function shiftClick(checkbox) {
-        if (!lastChecked) {
-            lastChecked = checkbox;
-            return;
+    function deleteMarkedRows() {
+        const markedRows = document.querySelectorAll('.delete-mark:checked');
+        if (markedRows.length === 0) return;
+
+        const tableName = document.getElementById('tableSelect').value;
+        const rowIds = Array.from(markedRows).map(row => row.closest('tr').querySelector('td:nth-child(2)').textContent);
+
+        if (confirm(`Are you sure you want to delete ${rowIds.length} rows?`)) {
+            rowIds.forEach(id => deleteRow(id));
         }
-        if (event.shiftKey) {
-            const checkboxes = Array.from(document.querySelectorAll('.delete-mark'));
-            const start = checkboxes.indexOf(lastChecked);
-            const end = checkboxes.indexOf(checkbox);
-            const range = start < end ? checkboxes.slice(start, end + 1) : checkboxes.slice(end, start + 1);
-            range.forEach(checkbox => checkbox.checked = lastChecked.checked);
-            toggleDeleteButton(); // Update the delete button visibility
-        }
-        lastChecked = checkbox;
     }
 </script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
