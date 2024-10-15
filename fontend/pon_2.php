@@ -13,7 +13,29 @@ include('../nav.php');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            text-align: center;
+        }
         
+        .mac-address {
+            position: relative;
+            text-align: center;
+        }
+        
+        .copy-icon {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            cursor: pointer;
+            color: rgba(0, 123, 255, 0.3); /* 30% opacity */
+            font-size: 0.6rem; /* Smaller size */
+        }
+
+        #loading {
+            display: none;
+        }
     </style>
 </head>
 
@@ -101,11 +123,25 @@ include('../nav.php');
         }
 
         function copyToClipboard(macAddress) {
-            navigator.clipboard.writeText(macAddress).then(() => {
-                alert(`Copied: ${macAddress}`);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(macAddress).then(() => {
+                    alert(`Copied: ${macAddress}`);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            } else {
+                const tempInput = document.createElement('input');
+                tempInput.value = macAddress;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try {
+                    document.execCommand('copy');
+                    alert(`Copied: ${macAddress}`);
+                } catch (err) {
+                    console.error('Failed to copy: ', err);
+                }
+                document.body.removeChild(tempInput);
+            }
         }
 
         function searchTable() {

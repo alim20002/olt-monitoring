@@ -39,6 +39,29 @@ include('../nav.php');
             display: block;
             opacity: 1;
         }
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            text-align: center;
+        }
+        
+        .mac-address {
+            position: relative;
+            text-align: center;
+        }
+        
+        .copy-icon {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            cursor: pointer;
+            color: rgba(0, 123, 255, 0.3); /* 30% opacity */
+            font-size: 0.6rem; /* Smaller size */
+        }
+
+        #loading {
+            display: none;
+        }
     </style>
 </head>
 
