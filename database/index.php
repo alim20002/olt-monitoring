@@ -78,6 +78,9 @@
         .select-all {
             cursor: pointer;
         }
+        .alert {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -92,9 +95,10 @@
 
 <div class="table-actions">
     <h3>Table Data</h3>
-    <button class="btn btn-danger" onclick="deleteMarkedRows()">Delete Selected Rows</button>
+    <button class="btn btn-danger" id="deleteSelectedButton" style="display: none;" onclick="deleteMarkedRows()">Delete Selected Rows</button>
 </div>
 
+<div id="notificationContainer"></div>
 <div id="tableContainer"></div>
 
 <script>
@@ -102,7 +106,23 @@
     let lastChecked = null;
 
     window.onload = function() {
-        fetchTables();
+        const password = prompt("Enter the password to access this page:");
+        if (password !== "12300") {
+            alert("Incorrect password. Access denied.");
+            window.location.href = "about:blank"; // Redirect to a blank page
+        } else {
+            fetchTables();
+        }
+    }
+
+    function showNotification(message, type = 'success') {
+        const notificationContainer = document.getElementById('notificationContainer');
+        const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+        const alertHtml = `<div class="alert ${alertClass}" role="alert">${message}</div>`;
+        notificationContainer.innerHTML = alertHtml;
+        setTimeout(() => {
+            notificationContainer.innerHTML = '';
+        }, 3000); // Hide after 3 seconds
     }
 
     function fetchTables() {
@@ -146,7 +166,7 @@
 
                 data.data.forEach(row => {
                     tableHtml += '<tr>';
-                    tableHtml += `<td><input type="checkbox" class="delete-mark" onclick="shiftClick(this)"></td>`;
+                    tableHtml += `<td><input type="checkbox" class="delete-mark" onclick="toggleDeleteButton()"></td>`;
                     Object.keys(row).forEach(key => {
                         tableHtml += `<td contenteditable="true" data-original="${row[key]}" onblur="editCell(this, '${key}', '${row.id}')">${row[key]}</td>`;
                     });
@@ -212,7 +232,8 @@
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                fetchTableData();
+                showNotification('Row deleted successfully.');
+                fetchTableData(); // Refresh table data
             } else {
                 alert('Failed to delete row');
             }
@@ -225,48 +246,57 @@
             return mark.closest('tr').querySelector('td:nth-child(2)').textContent; // Assuming the first data cell is the ID
         });
 
-        markedRows.forEach(id => {
-            fetch('database.php', {
+        const deletePromises = markedRows.map(id => {
+            return fetch('database.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `action=deleteRow&tableName=${tableName}&id=${id}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    fetchTableData();
-                } else {
-                    alert('Failed to delete row');
-                }
-            });
+            }).then(response => response.json());
+        });
+
+        Promise.all(deletePromises)
+        .then(results => {
+            const successfulDeletes = results.filter(result => result.status === 'success').length;
+            if (successfulDeletes > 0) {
+                showNotification(`${successfulDeletes} rows deleted successfully.`);
+            }
+            fetchTableData(); // Refresh table data
         });
     }
 
     function deleteTable() {
         const tableName = document.getElementById('tableSelect').value;
-        if (!tableName) return;
 
-        if (confirm('Are you sure you want to delete this table?')) {
-            fetch('database.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=deleteTable&tableName=${tableName}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    fetchTables();
-                    document.getElementById('tableContainer').innerHTML = '';
-                } else {
-                    alert('Failed to delete table');
-                }
-            });
-        }
+        fetch('database.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `action=deleteTable&tableName=${tableName}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                showNotification('Table deleted successfully.');
+                fetchTables(); // Refresh table list
+                document.getElementById('tableContainer').innerHTML = '';
+            } else {
+                alert('Failed to delete table');
+            }
+        });
     }
 
-    function toggleSelectAll(checkbox) {
+    function toggleSelectAll(selectAll) {
         const checkboxes = document.querySelectorAll('.delete-mark');
-        checkboxes.forEach(cb => cb.checked = checkbox.checked);
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectAll.checked;
+        });
+        toggleDeleteButton(); // Check if any checkbox is selected
+    }
+
+    function toggleDeleteButton() {
+        const checkboxes = document.querySelectorAll('.delete-mark');
+        const deleteButton = document.getElementById('deleteSelectedButton');
+        const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        deleteButton.style.display = anyChecked ? 'block' : 'none'; // Show or hide the delete button based on checked checkboxes
     }
 
     function shiftClick(checkbox) {
@@ -274,20 +304,20 @@
             lastChecked = checkbox;
             return;
         }
-
         if (event.shiftKey) {
-            const checkboxes = document.querySelectorAll('.delete-mark');
-            const start = Array.from(checkboxes).indexOf(checkbox);
-            const end = Array.from(checkboxes).indexOf(lastChecked);
-            checkboxes.forEach((cb, index) => {
-                if ((index >= Math.min(start, end)) && (index <= Math.max(start, end))) {
-                    cb.checked = lastChecked.checked;
-                }
-            });
+            const checkboxes = Array.from(document.querySelectorAll('.delete-mark'));
+            const start = checkboxes.indexOf(lastChecked);
+            const end = checkboxes.indexOf(checkbox);
+            const range = start < end ? checkboxes.slice(start, end + 1) : checkboxes.slice(end, start + 1);
+            range.forEach(checkbox => checkbox.checked = lastChecked.checked);
+            toggleDeleteButton(); // Update the delete button visibility
         }
-
         lastChecked = checkbox;
     }
 </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
