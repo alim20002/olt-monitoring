@@ -1,4 +1,7 @@
 <?php
+// Set timezone to Bangladesh
+date_default_timezone_set('Asia/Dhaka');
+
 $hostname = 'sql12.freesqldatabase.com';
 $username = 'sql12737660';
 $password = 'Ize6GMRKKm';
