@@ -47,7 +47,7 @@ function loadUsernames($txtFile) {
 }
 
 // OLT details
-$olt_ip = '103.134.26.91'; // Replace with your OLT IP
+$olt_ip = 'e1f10fc2d1f1.sn.mynetname.net'; // Replace with your OLT IP
 $port = 8023;
 $username = 'root';
 $password = '123400';

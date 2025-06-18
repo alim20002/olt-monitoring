@@ -57,7 +57,7 @@ function loadTXT($txtFile) {
 
 try {
     // OLT connection details
-    $olt_ip = '103.134.26.91'; // Your OLT IP
+    $olt_ip = '103.113.148.176'; // Your OLT IP
     $port = 8023;
     $username = 'root';
     $password = '123400';
