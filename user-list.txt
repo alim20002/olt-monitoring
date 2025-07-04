@@ -1,4 +1,7 @@
-C-data 80:F7:A6:F9:5C:39
+Mriduler basha 80:F7:A6:F9:5C:39
+
+
+
 am_maruf	F8:6C:E1:67:E1:4B
 am_tamim	E0:97:96:D6:39:2A
 am_alamin	A2:4D:08:03:13:C0
