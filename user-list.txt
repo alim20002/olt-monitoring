@@ -1,5 +1,4 @@
-Mridul_Basha 80:F7:A6:F9:5C:39
-
+am_mridul  80:F7:A6:F9:5C:39
 am_maruf	F8:6C:E1:67:E1:4B
 am_tamim	E0:97:96:D6:39:2A
 am_alamin	A2:4D:08:03:13:C0
@@ -114,7 +113,7 @@ am_saimoon	F8:6C:E1:61:C6:39
 am_foysal	FC:E3:3C:0C:B4:84
 am_oliullah	F8:6C:E1:82:4A:8F
 am_anowar3	00:55:B1:2A:8B:81
-am_shawon	80:D4:A5:62:03:5F
+am_shawon  80:D4:A5:62:03:5F
 am_sujon	A4:DC:BE:60:BE:01
 am_mijan2	04:BD:70:A5:EE:74
 am_ruhi	F8:6C:E1:63:22:77
