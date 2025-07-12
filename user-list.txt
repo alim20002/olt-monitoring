@@ -81,7 +81,7 @@ am_alamin2	7C:A2:3E:A5:2C:88
 am_bazar	00:D5:9E:D5:4D:EE
 am_noyon3	00:D5:9E:D5:12:CC
 am_shamim	AC:4E:91:DD:B8:73
-am_sabbir2	
+am_sabbir2	BC:62:0E:E0:92:13
 am_akram	4C:F9:B2:84:B3:D8
 am_hamidul	98:45:62:AB:07:50
 am_eyasin	4C:AE:1C:27:2C:B0
