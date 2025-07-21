@@ -141,3 +141,5 @@ am_himel	F8:6C:E1:5C:E2:FA
 am_nirob	F8:6C:E1:88:0B:E2
 am_akram2	F8:6C:E1:8A:5F:99
 am_sohel	A2:4E:11:24:7B:00
+am_shimul	74:88:2A:1C:25:B8
+am_maruf2	38:3A:21:22:A8:0B
