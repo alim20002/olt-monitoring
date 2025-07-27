@@ -9,13 +9,13 @@ am_bina	F8:6C:E1:7A:03:AF
 am_tuhin	F8:6C:E1:76:65:CC
 am_rohomot	A4:DC:BE:7F:8D:2E
 am_abid	88:A2:D7:60:42:D1
-am_masud	00:D5:9E:73:A7:6A
+	
 am_mitu	7C:60:97:85:DD:0F
 am_geda	F8:6C:E1:8C:32:AA
 am_nasir	BC:62:0E:B5:D7:67
 am_nasir2	A0:7E:10:24:66:00
 am_amir	00:D5:9E:D5:58:44
-am_parvin	
+	
 am_emon	0C:41:E9:82:48:15
 am_mijan	F8:75:88:A3:EE:61
 am_rana	0C:41:E9:79:8B:D4
@@ -37,7 +37,7 @@ am_mamun	80:D4:A5:57:DA:1F
 am_kobir	80:D4:A5:57:9B:9F
 am_robin	64:3E:8C:18:E5:C3
 am_robbani	80:D4:A5:57:D1:DF
-am_chunno	F8:6C:E1:88:F3:9A
+am_chunnu	F8:6C:E1:69:66:14
 am_rana2	80:D4:A5:62:7F:AF
 am_rabbiahmed	A2:4D:08:03:1E:10
 am_mim	00:D5:9E:73:B8:EC
@@ -90,7 +90,7 @@ am_yousuf	F8:6C:E1:89:E2:CD
 am_forid	F8:6C:E1:8A:7E:49
 am_parvej	A2:4E:08:19:1B:C0
 am_amdadul	F8:6C:E1:7B:69:32
-am_helan	F8:6C:E1:63:D8:B2
+am_helan	00:D5:9E:73:A7:6A
 am_anowar	E4:2D:7B:2C:D8:DF
 am_juwel2	00:D5:9E:73:B9:22
 am_selim2	00:D5:9E:D5:4E:48
@@ -105,7 +105,7 @@ am_hamza
 am_kawsar2	F8:6C:E1:5D:27:C8
 am_jamirul	00:D5:9E:9D:BC:16
 am_kobir3	00:D5:9E:9D:BC:10
-am_sumon	
+	
 am_seaim	00:D5:9E:9D:BB:F2
 am_wasa	60:D2:DD:2C:BC:23
 am_shamim2	4C:AE:1C:22:90:40
@@ -117,7 +117,6 @@ am_shawon	80:D4:A5:62:03:5F
 am_sujon	A4:DC:BE:60:BE:01
 am_mijan2	04:BD:70:A5:EE:74
 am_ruhi	F8:6C:E1:63:22:77
-am_soikot	
 am_mukta	80:D4:A5:57:57:4F
 am_sumi	00:D5:9E:D5:73:1A
 am_sadman	00:D5:9E:D5:72:D2
@@ -129,7 +128,7 @@ am_zillur	A2:4E:12:2A:F5:90
 am_sabbir	A2:4E:12:2A:A1:B0
 am_amzad	34:00:A3:CC:78:56
 am_mariyam	00:D5:9E:D5:7B:42
-am_akash3	00:D5:9E:9D:BC:0A
+am_akash3	
 an_monir2	A2:8D:11:08:02:70
 am_hridoy3	F8:6C:E1:6B:06:B5
 am_jakir	20:3D:B2:7B:42:06
@@ -139,7 +138,9 @@ am_mozahid	F8:6C:E1:77:5A:D3
 am_rajon	F8:6C:E1:6F:F0:72
 am_himel	F8:6C:E1:5C:E2:FA
 am_nirob	F8:6C:E1:88:0B:E2
+am_mizan	00:D5:9E:9D:BC:0A
 am_akram2	F8:6C:E1:8A:5F:99
 am_sohel	A2:4E:11:24:7B:00
 am_shimul	74:88:2A:1C:25:B8
 am_maruf2	38:3A:21:22:A8:0B
+am_tusher	E4:C2:D1:00:5D:14
