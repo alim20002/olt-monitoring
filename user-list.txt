@@ -114,7 +114,7 @@ am_anowar3	00:55:B1:2A:8B:81
 am_shawon	80:D4:A5:62:03:5F
 am_sujon	A4:DC:BE:60:BE:01
 am_mijan2	04:BD:70:A5:EE:74
-am_ruhi	F8:6C:E1:63:22:77
+am_ruhi		F8:6C:E1:63:22:77
 am_mukta	80:D4:A5:57:57:4F
 am_sadman	00:D5:9E:D5:72:D2
 am_tarek	00:D5:9E:CC:3C:E2
@@ -147,5 +147,5 @@ am_rana4	E4:C2:D1:57:89:8A
 am_akash3	F8:6C:E1:8F:BF:99
 am_romjan	E4:C2:D1:88:1D:03
 am_rana5	E4:C2:D1:23:64:A6
-am_shamim3        	A2:4F:05:29:61:40
-"am_monwar	"	F8:6C:E1:88:0B:E2
+am_shamim3	A2:4F:05:29:61:40
+am_monwar	F8:6C:E1:88:0B:E2
